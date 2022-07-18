@@ -194,8 +194,7 @@ echo "DNSMASQ_EXCEPT=lo" >> /etc/default/dnsmasq
 cp -R /etc/nginx $SYS_CONF/etc/nginx.bak
 cp -R $SYS_CONF/etc/nginx /etc
 
-sed -e 's/^USE_INETD=true/USE_INETD=false/g' -i /etc/default/atftpd
-sed -i "/OPTIONS=/c OPTIONS=\"--tftpd-timeout 300 --retry-timeout 5 --mcast-port 1758 --mcast-addr 239.239.239.0-255 --mcast-ttl 1 --maxthread 100 --verbose=5 ${TFTP_ROOT}\"" /etc/default/atftpd
+cp $SYS_CONF"/etc/default/atftpd" /etc/default
 systemctl enable atftpd > /dev/null 2>&1
 
 sysctl net.core.somaxconn=65535
