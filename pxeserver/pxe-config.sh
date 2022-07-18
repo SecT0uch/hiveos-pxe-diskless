@@ -53,7 +53,7 @@ dpkg -s pxz  > /dev/null 2>&1
 [[ $? -ne 0 ]] && need_install="$need_install pxz"
 
 if [[ ! -z $need_install ]]; then
-	echo "Install needed package. Plese wait"
+	echo "Install needed package. Please wait"
 	apt update > /dev/null 2>&1
 	apt install -y $need_install > /dev/null 2>&1
 	echo "Done"
@@ -184,26 +184,6 @@ echo "" >> $SERVER_CONF
 #Change Boot config
 sed -i "/kernel/c kernel http://${IP}/hiveramfs/boot/vmlinuz" $BOOT_CONF
 sed -i "/append/c append initrd=http://${IP}/hiveramfs/boot/initrd-ram.img ip=dhcp root=http httproot=http://${IP}/hiveramfs/ ram_fs_size=${FS_SIZE}M hive_fs_arch=${ARCH_NAME} opencl_version=${OCL_VER} nvidia_version=${NV_VER} text consoleblank=0 intel_pstate=disable net.ifnames=0 ipv6.disable=1 pci=noaer iommu=soft amdgpu.vm_fragment_size=9 radeon.si_support=0 radeon.cik_support=0 amdgpu.si_support=1 amdgpu.cik_support=1" $BOOT_CONF 
-
-echo "port=0" > $SYS_CONF"/etc/dnsmasq.conf"
-echo "" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "log-facility=/var/log/dnsmasq.log" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "log-dhcp" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "#change the IP-address to the real IP-address of the server" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "dhcp-range=$IP,proxy" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "dhcp-no-override" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "" >> $SYS_CONF"/etc/dnsmasq.conf"
-#echo "enable-tftp" >> $SYS_CONF"/etc/dnsmasq.conf"
-#echo "tftp-root=$TFTP_ROOT" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "dhcp-option-force=208,f1:00:74:7e" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "dhcp-option-force=211,30i" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "#change the IP-address to the real IP-address of the server" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "pxe-service=X86PC, "Boot BIOS PXE",/bios/lpxelinux.0,$IP" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "pxe-service=BC_EFI, "Boot UEFI PXE-BC",/efi/grubnetx64.efi,$IP" >> $SYS_CONF"/etc/dnsmasq.conf"
-echo "pxe-service=X86-64_EFI, "Boot UEFI PXE-64",/efi/grubnetx64.efi,$IP" >> $SYS_CONF"/etc/dnsmasq.conf"
 
 cp /etc/dnsmasq.conf $SYS_CONF"/etc/dnsmasq.bak"
 cp $SYS_CONF"/etc/dnsmasq.conf" /etc
