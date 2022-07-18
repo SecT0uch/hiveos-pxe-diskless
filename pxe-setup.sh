@@ -42,7 +42,7 @@ mkdir -p /tmp/pxe-server > /dev/null 2>&1
 cd /tmp/pxe-server
 echo
 echo -e "${GREEN}> Download PXE-server package${NOCOLOR}"
-wget -t 5 --show-progress https://github.com/ScT0uch/hiveos-pxe-diskless/archive/master.zip
+wget -t 5 --show-progress https://github.com/SecT0uch/hiveos-pxe-diskless/archive/master.zip
 echo
 if [[ $? -eq 0 ]]; then
     dpkg -s unzip  > /dev/null 2>&1
