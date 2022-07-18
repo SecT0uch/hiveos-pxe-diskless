@@ -43,8 +43,6 @@ dpkg -s nginx-extras  > /dev/null 2>&1
 [[ $? -ne 0 ]] && need_install="$need_install nginx-extras"
 dpkg -s pv  > /dev/null 2>&1
 [[ $? -ne 0 ]] && need_install="$need_install pv"
-dpkg -s atftpd  > /dev/null 2>&1
-[[ $? -ne 0 ]] && need_install="$need_install atftpd"
 #added for uefi boot
 dpkg -s grub-efi-amd64  > /dev/null 2>&1 
 [[ $? -ne 0 ]] && need_install="$need_install grub-efi-amd64"
@@ -194,9 +192,6 @@ echo "DNSMASQ_EXCEPT=lo" >> /etc/default/dnsmasq
 cp -R /etc/nginx $SYS_CONF/etc/nginx.bak
 cp -R $SYS_CONF/etc/nginx /etc
 
-cp $SYS_CONF"/etc/default/atftpd" /etc/default
-systemctl enable atftpd > /dev/null 2>&1
-
 sysctl net.core.somaxconn=65535
 
 res=0
@@ -217,14 +212,6 @@ else
 	echo -e "${GREEN}OK${NOCOLOR}"
 fi
 
-echo -n "> Restart Atftp server. "
-systemctl restart atftpd
-if [[ $? -ne 0 ]]; then
-	res=1
-	echo -e "${RED}FAILED${NOCOLOR}"
-else
-	echo -e "${GREEN}OK${NOCOLOR}"
-fi
 #making uefi
 grub-mkimage -d /usr/lib/grub/x86_64-efi/ -O x86_64-efi -o $mydir/tftp/efi/grubnetx64.efi --prefix="(tftp,$IP)/efi" efinet tftp efi_uga efi_gop http
 chmod -R 777 $mydir/
